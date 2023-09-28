@@ -11,9 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/movie', name: 'movie_')]
 class MovieController extends AbstractController
 {
-    #[Route('/movie', name: 'movie_index', methods: 'get')]
+    #[Route('/', name: 'index', methods: 'get')]
     public function index(MovieRepository $movieRepository): Response
     {
         $movies = $movieRepository->findAll();
@@ -23,7 +24,7 @@ class MovieController extends AbstractController
         ]);
     }
 
-    #[Route('/movie/{id}', name: 'movie_show', requirements: ['id' => '\d{1,3}'], methods: 'get')]
+    #[Route('/{id}', name: 'show', requirements: ['id' => '\d{1,3}'], methods: 'get')]
     public function show(Movie $movie): Response
     {
         return $this->render('movie/show.html.twig', [
@@ -31,7 +32,7 @@ class MovieController extends AbstractController
         ]);
     }
 
-    #[Route('/movie/new', name: 'movie_new', methods: ['get', 'post'])]
+    #[Route('/new', name: 'new', methods: ['get', 'post'])]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
         $movie = new Movie();
@@ -42,7 +43,11 @@ class MovieController extends AbstractController
             $manager->persist($movie);
             $manager->flush();
 
-            return $this->redirectToRoute('movie_index');
+            $this->addFlash('success', 'Film créé avec succès.');
+
+            return $this->redirectToRoute('movie_show', [
+                'id' => $movie->getId()
+            ]);
         }
 
         return $this->render('movie/new.html.twig', [
@@ -50,7 +55,7 @@ class MovieController extends AbstractController
         ]);
     }
 
-    #[Route('/movie/update/{id}', name: 'movie_update', requirements: ['id' => '\d{1,3}'], methods: ['get', 'post'])]
+    #[Route('/update/{id}', name: 'update', requirements: ['id' => '\d{1,3}'], methods: ['get', 'post'])]
     public function update(Movie $movie, Request $request, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(MovieType::class, $movie);
@@ -59,7 +64,9 @@ class MovieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->flush();
 
-            return $this->redirectToRoute('movie_update', [
+            $this->addFlash('success', "Le film {$movie->getName()} modifier avec succès.");
+
+            return $this->redirectToRoute('movie_show', [
                 'id' => $movie->getId()
             ]);
         }
@@ -68,5 +75,18 @@ class MovieController extends AbstractController
             'form' => $form,
             'movie' => $movie
         ]);
+    }
+
+    #[Route('delete/{id}/{token}', name: 'delete', methods: 'get')]
+    public function delete(Movie $movie, string $token, EntityManagerInterface $manager): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $movie->getId(), $token)) {
+            $manager->remove($movie);
+            $manager->flush();
+
+            $this->addFlash('success', 'Film supprimé avec succès.');
+        }
+
+        return $this->redirectToRoute('movie_index');
     }
 }

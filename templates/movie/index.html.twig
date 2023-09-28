@@ -5,9 +5,29 @@
 {% block body %}
     <h1>Liste des films</h1>
 
-    {% for movie in movies %}
-        {{ movie.name }}
-    {% else %}
-        aucun film
-    {% endfor %}
+    <a href="{{ path('movie_new') }}">Création d'un film</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Durée</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for movie in movies %}
+            <tr>
+                <td><a href="{{ path('movie_show', {'id': movie.id}) }}">{{ movie.name }}</a></td>
+                <td>{{ movie.duration }}</td>
+                <td>
+                    <a href="{{ path('movie_update', {'id': movie.id}) }}">Editer</a>
+                    <a href="{{ path('movie_delete', {'id': movie.id, 'token': csrf_token('delete' ~ movie.id)}) }}" onclick="confirm('Hey, sur ? ');">Supprimer</a>
+                </td>
+            </tr>
+        {% else %}
+            aucun film
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
