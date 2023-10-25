@@ -1,26 +1,44 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body class="antialiased bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400">
+<nav class="flex flex-wrap items-center justify-between w-full py-4 md:py-0 px-4 text-lg text-gray-700 bg-white">
+    <div>
+        <a href="{{ path('default_index') }}">NetMovies</a>
+    </div>
 
-        <br>
-        {% for type, flashMessages in app.flashes %}
-            {% for message in flashMessages %}
-                {{ type }} - {{ message }}
-            {% endfor %}
-        {% endfor %}
-    </body>
+    <div class="hidden w-full md:flex md:items-center md:w-auto" id="menu">
+        <ul class="pt-4 text-base text-gray-700 md:flex md:justify-between md:pt-0">
+            <li>
+                <a class="md:p-4 py-2 block hover:text-purple-400" href="{{ path('movie_index') }}">Films</a>
+            </li>
+            <li>
+                <a class="md:p-4 py-2 block hover:text-purple-400" href="{{ path('app_category_index') }}">Catégories</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+{% block body %}{% endblock %}
+
+<br>
+{% for type, flashMessages in app.flashes %}
+    {% for message in flashMessages %}
+        {{ type }} - {{ message }}
+    {% endfor %}
+{% endfor %}
+</body>
 </html>
