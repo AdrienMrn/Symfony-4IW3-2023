@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Back;
 
 use App\Entity\Review;
 use App\Form\ReviewType;
@@ -20,7 +20,7 @@ class ReviewController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function index(ReviewRepository $reviewRepository): Response
     {
-        return $this->render('review/index.html.twig', [
+        return $this->render('back/review/index.html.twig', [
             'reviews' => $reviewRepository->findBy(['owner' => $this->getUser()]),
         ]);
     }
@@ -38,10 +38,10 @@ class ReviewController extends AbstractController
             $entityManager->persist($review);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_review_edit', ['id' => $review->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('back_app_review_edit', ['id' => $review->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('review/new.html.twig', [
+        return $this->render('back/review/new.html.twig', [
             'review' => $review,
             'form' => $form,
         ]);
@@ -51,7 +51,7 @@ class ReviewController extends AbstractController
     #[IsGranted('ROLE_MODERATOR')]
     public function show(Review $review): Response
     {
-        return $this->render('review/show.html.twig', [
+        return $this->render('back/review/show.html.twig', [
             'review' => $review,
         ]);
     }
@@ -66,10 +66,10 @@ class ReviewController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_review_edit', ['id' => $review->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('back_app_review_edit', ['id' => $review->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('review/edit.html.twig', [
+        return $this->render('back/review/edit.html.twig', [
             'review' => $review,
             'form' => $form,
         ]);
@@ -85,6 +85,6 @@ class ReviewController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_review_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('back_app_review_index', [], Response::HTTP_SEE_OTHER);
     }
 }

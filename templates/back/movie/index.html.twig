@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Liste des films</h1>
 
-    <a href="{{ path('movie_new') }}">Création d'un film</a>
+    <a href="{{ path('back_movie_new') }}">Création d'un film</a>
 
     <table>
         <thead>
@@ -18,11 +18,11 @@
         <tbody>
         {% for movie in movies %}
             <tr>
-                <td><a href="{{ path('movie_show', {'id': movie.id}) }}">{{ movie.name }}</a></td>
+                <td><a href="{{ path('back_movie_show', {'id': movie.id}) }}">{{ movie.name }}</a></td>
                 <td>{{ movie.duration }}</td>
                 <td>
-                    <a href="{{ path('movie_update', {'id': movie.id}) }}">Editer</a>
-                    <a href="{{ path('movie_delete', {'id': movie.id, 'token': csrf_token('delete' ~ movie.id)}) }}" onclick="confirm('Hey, sur ? ');">Supprimer</a>
+                    <a href="{{ path('back_movie_update', {'id': movie.id}) }}">Editer</a>
+                    <a href="{{ path('back_movie_delete', {'id': movie.id, 'token': csrf_token('delete' ~ movie.id)}) }}" onclick="confirm('Hey, sur ? ');">Supprimer</a>
                 </td>
             </tr>
         {% else %}

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Back;
 
 use App\Entity\Movie;
 use App\Form\MovieType;
@@ -19,7 +19,7 @@ class MovieController extends AbstractController
     {
         $movies = $movieRepository->findAll();
 
-        return $this->render('movie/index.html.twig', [
+        return $this->render('back/movie/index.html.twig', [
             'movies' => $movies,
         ]);
     }
@@ -27,7 +27,7 @@ class MovieController extends AbstractController
     #[Route('/{id}', name: 'show', requirements: ['id' => '\d{1,3}'], methods: 'get')]
     public function show(Movie $movie): Response
     {
-        return $this->render('movie/show.html.twig', [
+        return $this->render('back/movie/show.html.twig', [
            'movie' => $movie
         ]);
     }
@@ -45,12 +45,12 @@ class MovieController extends AbstractController
 
             $this->addFlash('success', 'Film créé avec succès.');
 
-            return $this->redirectToRoute('movie_show', [
+            return $this->redirectToRoute('back_movie_show', [
                 'id' => $movie->getId()
             ]);
         }
 
-        return $this->render('movie/new.html.twig', [
+        return $this->render('back/movie/new.html.twig', [
             'form' => $form
         ]);
     }
@@ -66,12 +66,12 @@ class MovieController extends AbstractController
 
             $this->addFlash('success', "Le film {$movie->getName()} modifier avec succès.");
 
-            return $this->redirectToRoute('movie_show', [
+            return $this->redirectToRoute('back_movie_show', [
                 'id' => $movie->getId()
             ]);
         }
 
-        return $this->render('movie/update.html.twig', [
+        return $this->render('back/movie/update.html.twig', [
             'form' => $form,
             'movie' => $movie
         ]);
@@ -87,6 +87,6 @@ class MovieController extends AbstractController
             $this->addFlash('success', 'Film supprimé avec succès.');
         }
 
-        return $this->redirectToRoute('movie_index');
+        return $this->redirectToRoute('back_movie_index');
     }
 }

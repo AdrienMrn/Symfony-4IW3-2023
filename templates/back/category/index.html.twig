@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Category index</h1>
-    <a href="{{ path('app_category_new') }}">Create new</a>
+    <a href="{{ path('back_app_category_new') }}">Create new</a>
 
     <br><br>
 
@@ -12,15 +12,15 @@
         {% embed 'composants/_card.html.twig' %}
             {% block title %}{{ category.name }}{% endblock %}
             {% block body %}
-                <a href="{{ path('app_category_show', {'id': category.id}) }}">show</a>
-                <a href="{{ path('app_category_edit', {'id': category.id}) }}">edit</a>
+                <a href="{{ path('back_app_category_show', {'id': category.id}) }}">show</a>
+                <a href="{{ path('back_app_category_edit', {'id': category.id}) }}">edit</a>
             {% endblock %}
         {% endembed %}
     {% else %}
         {% embed 'composants/_card.html.twig' %}
             {% block title %}Aucune catégorie{% endblock %}
             {% block body %}
-                <a href="{{ path('app_category_new') }}">Create new</a>
+                <a href="{{ path('back_app_category_new') }}">Create new</a>
             {% endblock %}
         {% endembed %}
     {% endfor %}
