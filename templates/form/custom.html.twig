@@ -1,0 +1,11 @@
+{%- block textarea_row -%}
+    <div class="bg-yellow-500">
+        {{ form_widget(form) }}
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+    </div>
+{%- endblock textarea_row -%}
+
+{%- block textarea_widget -%}
+    <textarea class="bg-red-500" {{ block('widget_attributes') }}>{{ value }}</textarea>
+{%- endblock textarea_widget -%}

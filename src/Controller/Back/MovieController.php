@@ -24,7 +24,7 @@ class MovieController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'show', requirements: ['id' => '\d{1,3}'], methods: 'get')]
+    #[Route('/{slug}', name: 'show', methods: 'get')]
     public function show(Movie $movie): Response
     {
         return $this->render('back/movie/show.html.twig', [
@@ -67,7 +67,7 @@ class MovieController extends AbstractController
             $this->addFlash('success', "Le film {$movie->getName()} modifier avec succès.");
 
             return $this->redirectToRoute('back_movie_show', [
-                'id' => $movie->getId()
+                'slug' => $movie->getSlug()
             ]);
         }
 

@@ -18,7 +18,7 @@
         <tbody>
         {% for movie in movies %}
             <tr>
-                <td><a href="{{ path('back_movie_show', {'id': movie.id}) }}">{{ movie.name }}</a></td>
+                <td><a href="{{ path('back_movie_show', {'slug': movie.slug}) }}">{{ movie.name }}</a></td>
                 <td>{{ movie.duration }}</td>
                 <td>
                     <a href="{{ path('back_movie_update', {'id': movie.id}) }}">Editer</a>

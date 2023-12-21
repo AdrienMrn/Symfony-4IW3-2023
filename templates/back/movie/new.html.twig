@@ -6,6 +6,9 @@
     <h1>Création d'un film</h1>
 
     {{ form_start(form) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.name) }}
+
         {{ form_rest(form) }}
         <button type="submit">Créer</button>
     {{ form_end(form) }}
