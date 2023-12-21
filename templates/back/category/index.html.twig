@@ -14,6 +14,8 @@
             {% block body %}
                 <a href="{{ path('back_app_category_show', {'id': category.id}) }}">show</a>
                 <a href="{{ path('back_app_category_edit', {'id': category.id}) }}">edit</a>
+                <a href="{{ path('back_app_category_sortable', {'id': category.id, 'position': 'up'}) }}">UP</a>
+                <a href="{{ path('back_app_category_sortable', {'id': category.id, 'position': 'down'}) }}">DOWN</a>
             {% endblock %}
         {% endembed %}
     {% else %}

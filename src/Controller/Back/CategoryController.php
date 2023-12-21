@@ -18,9 +18,24 @@ class CategoryController extends AbstractController
     public function index(CategoryRepository $categoryRepository): Response
     {
         return $this->render('back/category/index.html.twig', [
-            'categories' => $categoryRepository->findAll(),
+            'categories' => $categoryRepository->findBy([], ['position' => 'ASC'])
         ]);
     }
+
+    #[Route('/{id}/{position}', name: 'app_category_sortable', requirements: ['position' => 'up|down'], defaults: ['position' => 'up'], methods: ['GET'])]
+    public function sortable(Category $category, string $position, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        if ($position === 'up') {
+            $category->setPosition($category->getPosition() - 1);
+        } else {
+            $category->setPosition($category->getPosition() + 1);
+        }
+
+        $entityManager->flush();
+
+        return $this->redirect($request->headers->get('referer'));
+    }
+
 
     #[Route('/new', name: 'app_category_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response

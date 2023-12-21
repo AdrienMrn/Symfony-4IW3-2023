@@ -6,6 +6,7 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
@@ -17,6 +18,10 @@ class Category
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    #[Gedmo\SortablePosition]
+    #[ORM\Column()]
+    private int $position;
 
     #[ORM\ManyToMany(targetEntity: Movie::class, mappedBy: 'categories')]
     private Collection $movies;
@@ -44,6 +49,24 @@ class Category
     {
         $this->name = $name;
 
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPosition(): int
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param int $position
+     * @return Category
+     */
+    public function setPosition(int $position): Category
+    {
+        $this->position = $position;
         return $this;
     }
 
