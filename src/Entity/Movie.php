@@ -9,8 +9,11 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
+#[Vich\Uploadable]
 class Movie
 {
     use Traits\TimestampableTrait;
@@ -35,6 +38,12 @@ class Movie
         maxMessage: 'Le nom ne doit pas dépasser {{ limit }} caractères'
     )]
     private ?string $name = null;
+
+    #[Vich\UploadableField(mapping: 'coverMovie', fileNameProperty: 'coverName')]
+    private ?File $coverFile = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $coverName = null;
 
     #[ORM\Column(unique: true)]
     #[Gedmo\Slug(fields: ['name'])]
@@ -99,6 +108,30 @@ class Movie
         $this->name = $name;
 
         return $this;
+    }
+
+    public function setCoverFile(?File $imageFile = null): void
+    {
+        $this->coverFile = $imageFile;
+
+        if (null !== $imageFile) {
+            $this->updatedAt = new \DateTime();
+        }
+    }
+
+    public function getCoverFile(): ?File
+    {
+        return $this->coverFile;
+    }
+
+    public function setCoverName(?string $imageName): void
+    {
+        $this->coverName = $imageName;
+    }
+
+    public function getCoverName(): ?string
+    {
+        return $this->coverName;
     }
 
     public function getDescription(): ?string
