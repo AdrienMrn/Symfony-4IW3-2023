@@ -1,6 +1,11 @@
-controllers:
+controller_security:
     resource: ../src/Controller/SecurityController.php
     type: attribute
+
+controller_user:
+    resource: ../src/Controller/UserController.php
+    type: attribute
+
 
 controllers_front:
     resource: ../src/Controller/Front

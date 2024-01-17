@@ -8,7 +8,6 @@ use SendinBlue\Client\Api\TransactionalEmailsApi;
 use SendinBlue\Client\Configuration;
 use SendinBlue\Client\Model\SendSmtpEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
 class Mailer
 {
